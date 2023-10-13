@@ -17,6 +17,8 @@ struct RMCharacter: Codable{
     let gender: RMCharacterGender
     // this is an enum that conforms to certian string being the case
     let origin: RMOrigin
+    // We created a struct for RM Origin because it is an object on JSON but we can have it mentioned here as well
+    // struct RMOrigin: Codeable { let name: String, let url: String}
     // this is an struct , so we know that one struct can have another one as property as well
     let location: RMSingleLocation
     // this is an enum that conforms to certian string being the case

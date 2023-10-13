@@ -26,6 +26,7 @@
 		B258FDDF29FFF7A50014A55D /* RMSingleLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B258FDDE29FFF7A50014A55D /* RMSingleLocation.swift */; };
 		B258FDE129FFF8A20014A55D /* RMCharacterStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B258FDE029FFF8A20014A55D /* RMCharacterStatus.swift */; };
 		B258FDE329FFF9060014A55D /* RMCharacterGender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B258FDE229FFF9060014A55D /* RMCharacterGender.swift */; };
+		B28E9F2E2AD9B0CC00985134 /* RMGetAllCharactersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28E9F2D2AD9B0CC00985134 /* RMGetAllCharactersResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		B258FDDE29FFF7A50014A55D /* RMSingleLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSingleLocation.swift; sourceTree = "<group>"; };
 		B258FDE029FFF8A20014A55D /* RMCharacterStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterStatus.swift; sourceTree = "<group>"; };
 		B258FDE229FFF9060014A55D /* RMCharacterGender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterGender.swift; sourceTree = "<group>"; };
+		B28E9F2D2AD9B0CC00985134 /* RMGetAllCharactersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMGetAllCharactersResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,13 +107,8 @@
 		B258FDC129FC55720014A55D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B258FDC729FC56770014A55D /* RMLocation.swift */,
-				B258FDC929FC56830014A55D /* RMCharacter.swift */,
-				B258FDCB29FC568B0014A55D /* RMEpisode.swift */,
-				B258FDDC29FFF7560014A55D /* RMOrigin.swift */,
-				B258FDDE29FFF7A50014A55D /* RMSingleLocation.swift */,
-				B258FDE029FFF8A20014A55D /* RMCharacterStatus.swift */,
-				B258FDE229FFF9060014A55D /* RMCharacterGender.swift */,
+				B28E9F2C2AD9B0AC00985134 /* APIResponseTypes */,
+				B28E9F2B2AD9B09A00985134 /* DataTypes */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -170,6 +167,28 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		B28E9F2B2AD9B09A00985134 /* DataTypes */ = {
+			isa = PBXGroup;
+			children = (
+				B258FDC729FC56770014A55D /* RMLocation.swift */,
+				B258FDC929FC56830014A55D /* RMCharacter.swift */,
+				B258FDCB29FC568B0014A55D /* RMEpisode.swift */,
+				B258FDDC29FFF7560014A55D /* RMOrigin.swift */,
+				B258FDDE29FFF7A50014A55D /* RMSingleLocation.swift */,
+				B258FDE029FFF8A20014A55D /* RMCharacterStatus.swift */,
+				B258FDE229FFF9060014A55D /* RMCharacterGender.swift */,
+			);
+			path = DataTypes;
+			sourceTree = "<group>";
+		};
+		B28E9F2C2AD9B0AC00985134 /* APIResponseTypes */ = {
+			isa = PBXGroup;
+			children = (
+				B28E9F2D2AD9B0CC00985134 /* RMGetAllCharactersResponse.swift */,
+			);
+			path = APIResponseTypes;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -198,7 +217,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					B258FDA829FC53CF0014A55D = {
 						CreatedOnToolsVersion = 14.3;
@@ -242,6 +261,7 @@
 			files = (
 				B258FDDD29FFF7560014A55D /* RMOrigin.swift in Sources */,
 				B258FDDF29FFF7A50014A55D /* RMSingleLocation.swift in Sources */,
+				B28E9F2E2AD9B0CC00985134 /* RMGetAllCharactersResponse.swift in Sources */,
 				B258FDE129FFF8A20014A55D /* RMCharacterStatus.swift in Sources */,
 				B258FDE329FFF9060014A55D /* RMCharacterGender.swift in Sources */,
 				B258FDCC29FC568B0014A55D /* RMEpisode.swift in Sources */,
@@ -310,6 +330,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -370,6 +391,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
