@@ -10,6 +10,7 @@ import Foundation
 /// Obejct that represents a single API Call
 final class RMRequest {
     
+    // this will encapsulate all the data and create a single api according to the interaction like location, character and episode
     
     /// API Constant
     private struct Constants {

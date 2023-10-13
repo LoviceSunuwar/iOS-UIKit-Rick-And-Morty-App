@@ -5,6 +5,8 @@
 //  Created by Lovice Sunuwar on 28/04/2023.
 //
 
+// This service is the main api call point for the app
+
 import Foundation
 
 /// Primary API service object to get Rick and Morty data
@@ -15,6 +17,7 @@ final class RMService {
     
     /// Piravtized constructor
     private init() {}
+    // every componenet will be forced to use the shared instance after having a private initializer
     
     enum RMServiceError: Error {
         case failedToCreateRequest
