@@ -17,38 +17,34 @@ final class RMCharacterViewController: UIViewController {
     // since we require built in componenets like UIViewController we are using this cocoatouch class
     
     // Also, While creating the file, we can directly select what subclass is the file going to be and we get the option whether we are going to create a XIB file or not.
+    
+    private let characterListView = CharacterListView()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Characters"
-         
-        // the expectation is the type of data it will give, from the modal , it can be string, int also etc.
-        RMService.shared.execute(.listCharacterRequests, expecting: RMGetAllCharactersResponse.self) { result in
-            
-            // here we are asking the model from the api to match the model we have made , in this case it will be RMCharacter
-            
-            switch result{
-            case .success(let model):
-                // now since when we succed we are keeping the data on model, that means we can manipulate it now
-                print("Total: "+String(model.info.count))
-                // so "+String should not have space otherwise it will ask for a seperator
-                // now we can manipulate inside the model which has info and info has count
-                // the count is going to give us total number of data there is
-                // model.info.count means , it will give us how many character there is in this case its 826
-                print("Page Result count: "+String(model.results.count))
-                print(String(describing: model))
-            case .failure(let error):
-                print(String(describing: error))
-            }
-        }
+        
+        view.addSubview(characterListView) // we are adding the custom view we have created on this file
+        NSLayoutConstraint.activate([
+            // we are pinning the view on the frame of the viewcontroller
+            // so we can have a clear viewcontroller
+            // since we have anchored to the safe area, we are safe to make horizontal or even have it in the ipad
+            characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            characterListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+       
 
         
     }
 
 }
 
-
-// explanation 
+// EXPLANATION NO.1
+// explanation
 //        // here we are testing the api we made
 //        let request = RMRequest(
 //            endpoint: .character,
@@ -71,3 +67,27 @@ final class RMCharacterViewController: UIViewController {
 //                print(String(describing: error))
 //            }
 //        }
+
+
+
+// ----------------------- Explanation 2 ----------------------------
+//------ This is also added on CharacterListViewViewModel ------ because we want the view controller to be as minimal as possible
+// the expectation is the type of data it will give, from the modal , it can be string, int also etc.
+//RMService.shared.execute(.listCharacterRequests, expecting: RMGetAllCharactersResponse.self) { result in
+//    
+//    // here we are asking the model from the api to match the model we have made , in this case it will be RMCharacter
+//    
+//    switch result{
+//    case .success(let model):
+//        // now since when we succed we are keeping the data on model, that means we can manipulate it now
+//        print("Total: "+String(model.info.count))
+//        // so "+String should not have space otherwise it will ask for a seperator
+//        // now we can manipulate inside the model which has info and info has count
+//        // the count is going to give us total number of data there is
+//        // model.info.count means , it will give us how many character there is in this case its 826
+//        print("Page Result count: "+String(model.results.count))
+//        print(String(describing: model))
+//    case .failure(let error):
+//        print(String(describing: error))
+//    }
+//}
