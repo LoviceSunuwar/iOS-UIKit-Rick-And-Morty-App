@@ -10,9 +10,11 @@ import Foundation
 // Notice the naming their are two view so the name is characterlistviewviewmodel, While this is intentional
 // This is a dedicated view for the characterlist thats why the name is characterlistviewviewmodel
 
+import UIKit
 
 
-struct CharacterListViewViewModel {
+final class CharacterListViewViewModel: NSObject {
+    
     func fetchCharacters() {
         // the expectation is the type of data it will give, from the modal , it can be string, int also etc.
         RMService.shared.execute(.listCharacterRequests, expecting: RMGetAllCharactersResponse.self) { result in
@@ -33,5 +35,36 @@ struct CharacterListViewViewModel {
                 print(String(describing: error))
             }
         }
+    }
+}
+
+// here we are assinging the UICollectionViewDatasource, for the colleciton view .
+// while we could do in there as well, but we are keeping it clean.
+extension CharacterListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    // We are able to use this fucntion becuase of the UICollectionViewDataSource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 20
+    }
+    // Here we are asking how much number of items is the data source going to provide to our view that is colelction view
+    
+    // WE are able to use this function because of the UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) // here the name is "cell" which is allowing us to reuse the cell. we have created in the collectionview in characterlistview file
+        cell.backgroundColor = .systemGray
+        return cell
+    }
+    
+    // we are dequeing the cell, which will be every single cell.
+    // Now you can notive the withReuseIdentifierL:"cell" , for: indexPath 
+    
+    // We are able to use this funciton because of the UICollectionViewDelegateFlowLayout
+    // This function can be used to define height, width or basically the size of each cell in the view we are using
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let bounds = UIScreen.main.bounds // getting the whole size of the screen no matter the iphone
+        let width = (bounds.width-30)/2
+        return CGSize(
+            width: width,
+            height: width * 1.43)
     }
 }
