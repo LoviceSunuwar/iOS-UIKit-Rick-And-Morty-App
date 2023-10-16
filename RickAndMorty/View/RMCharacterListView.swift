@@ -10,7 +10,7 @@ import UIKit
 // This is a dedicated view just for the characterlist
 /// View that handles showing the characters, laoders, etc.
 class RMCharacterListView: UIView {
-
+    
     // good rule of thumb, if you dont need it public make it private
     private let viewModel = RMCharacterListViewViewModel()
     // MARK: Spinner
@@ -24,7 +24,7 @@ class RMCharacterListView: UIView {
     // MARK: CollectionView
     
     private let collectionView: UICollectionView = { // <- So the UICollectionView is basically a gridview or cardview
-       let layout = UICollectionViewFlowLayout() // predefined layout manager for a collection view. It's used to configure the layout of the collection view, such as how cells are arranged and sized.
+        let layout = UICollectionViewFlowLayout() // predefined layout manager for a collection view. It's used to configure the layout of the collection view, such as how cells are arranged and sized.
         layout.scrollDirection = .vertical
         
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -45,7 +45,7 @@ class RMCharacterListView: UIView {
         return collectionView
         
     }()
-// MARK: - Init
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,6 +61,9 @@ class RMCharacterListView: UIView {
         
         addConstraints() // you should always have it defined whatever is that you want to show in the view.
         spinner.startAnimating()
+        
+        
+        viewModel.delegate = self
         
         // MARK: - Fetch Data
         viewModel.fetchCharacters()
@@ -101,23 +104,42 @@ class RMCharacterListView: UIView {
         // MARK: - Connect where the data will come from
         collectionView.dataSource = viewModel // since, we have assingned on the characterlistviewviewmodel, we can assign it here.
         // So, This where we get the data to the collectionview or a particular view (e.g: tableview)
-
-      
-        // MARK: - Removing Spiner and showing the grid
-        // we area saying get rid of the spinner and show the grid we have which is collectionView
-        DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
-            self.spinner.stopAnimating() // this is going to stop animating and hide itself
-            
-            self.collectionView.isHidden = false
-            
-            UIView.animate(withDuration: 0.4){
-                self.collectionView.alpha = 1 // we are showing the opacity here
-            }
-        })
+        
+        
         
         // MARK: - Assigning Delegate
         collectionView.delegate = viewModel // since, we have assinged on the characterlistviewviewmodel, we are just assigning here.
         // So, The delegate is when we show the view, and user taps on one of the cell,
         // it will handle the events, like tapping the cell and going to the new screen
     }
+}
+
+
+extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
+    func didLoadInitialCharacters() {
+        // MARK: Before for the spinner and data
+        //        DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
+        //            self.spinner.stopAnimating() // this is going to stop animating and hide itself
+        //            
+        //            self.collectionView.isHidden = false
+        //            
+        //            UIView.animate(withDuration: 0.4){
+        //                self.collectionView.alpha = 1 // we are showing the opacity here
+        //            }
+        //        })
+        
+        // MARK: After for the spinner and data
+        // Now, Here since we have the protocol which is reloading the data, and the protocol has the funciton didloadintialdata which is updating on the main thread if you check on the RMCharacterListViewViewModel delagete, Hence we are conforming it to there as well.
+        // Now the spinner will only show, until we get the data, as soon as we get the data it will stop
+        spinner.stopAnimating() // this is going to stop animating and hide itself
+        
+        collectionView.isHidden = false
+        collectionView.reloadData() // MARK: Intial Fetch
+        UIView.animate(withDuration: 0.4){
+            self.collectionView.alpha = 1 // we are showing the opacity here
+        }
+        
+    }
+    
+    // we are doing this to make sure that even if the async takes a lot of time, the view does not show up before we show the data
 }

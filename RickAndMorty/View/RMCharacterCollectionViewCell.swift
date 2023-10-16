@@ -18,7 +18,8 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true // so the image doesnt overflow
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -49,6 +50,8 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
         
         contentView.addSubviews(imageView, nameLabel, statusLabel)
         addConstraints()
+        setUpLayer()
+        
         // this is where we are adding the subviews
         
     }
@@ -56,21 +59,33 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder){
         fatalError("Unsupported")
     } // this is required
+    // MARK: Layer
+    // So layer is how we make decorate
+    private func setUpLayer() {
+        contentView.layer.cornerRadius  = 8 // This gives the rounded edges
+        contentView.layer.shadowColor = UIColor.label.cgColor
+        contentView.layer.cornerRadius = 4
+        contentView.layer.shadowOffset = CGSize(width: -4, height: 4)
+        contentView.layer.shadowOpacity = 0.3
+    }
+    
+    
     
     private func addConstraints(){
         // MARK: Adding constraints to the contents we have from the subviews we have created above
         // which helps us position where we want in the UIcollectionview cell
         NSLayoutConstraint.activate([
-            statusLabel.heightAnchor.constraint(equalToConstant: 40),
-            nameLabel.heightAnchor.constraint(equalToConstant: 40),
+            // Constant is Padding
+            statusLabel.heightAnchor.constraint(equalToConstant: 30),
+            nameLabel.heightAnchor.constraint(equalToConstant: 30),
             
-            statusLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
-            statusLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5),
-            nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
-            nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant:  -5),
+            statusLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 7),
+            statusLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -7),
+            nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 7),
+            nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant:  -7),
             
             statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
-            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -3),
+            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor),
             // Notice that we have the namelabel constraint equal to the statuslabel on top anchor that means we are having the view on top of the status label
             
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -79,7 +94,7 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor, constant: -3),
             
         ])
-       
+        
         
         /*
          | Image |
@@ -87,6 +102,12 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
          | Status |
          */
     }
+    
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        setUpLayer()
+    } // This will change , when the user goes to light mode and darkmode
     
     override func prepareForReuse() {
         super.prepareForReuse()// this performs any necessary clean up for the view that is to be resued

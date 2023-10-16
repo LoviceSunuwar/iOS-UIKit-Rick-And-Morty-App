@@ -12,5 +12,14 @@ enum RMCharacterStatus: String, Codable {
     case `dead` = "Dead"
     case `unknown` = "unknown"
     
-    // we are using backtick because swift may have a the same property like unknonwn on thier own
+    
+    var text: String {
+        switch self {
+        case .alive, .dead:
+            return rawValue
+        case .unknown:
+            return "Unknown"
+        }
+        // we are using backtick because swift may have a the same property like unknonwn on thier own
+    }
 }

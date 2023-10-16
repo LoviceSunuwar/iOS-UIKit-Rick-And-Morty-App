@@ -32,7 +32,7 @@ final class RMCharacterViewController: UIViewController {
             // so we can have a clear viewcontroller
             // since we have anchored to the safe area, we are safe to make horizontal or even have it in the ipad
             
-           
+            
             
             //characterListView.heightAnchor.constraint(equalToConstant: 270),
             characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -40,11 +40,11 @@ final class RMCharacterViewController: UIViewController {
             characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
-       
-
+        
+        
         
     }
-
+    
 }
 
 // EXPLANATION NO.1
@@ -78,9 +78,9 @@ final class RMCharacterViewController: UIViewController {
 //------ This is also added on CharacterListViewViewModel ------ because we want the view controller to be as minimal as possible
 // the expectation is the type of data it will give, from the modal , it can be string, int also etc.
 //RMService.shared.execute(.listCharacterRequests, expecting: RMGetAllCharactersResponse.self) { result in
-//    
+//
 //    // here we are asking the model from the api to match the model we have made , in this case it will be RMCharacter
-//    
+//
 //    switch result{
 //    case .success(let model):
 //        // now since when we succed we are keeping the data on model, that means we can manipulate it now

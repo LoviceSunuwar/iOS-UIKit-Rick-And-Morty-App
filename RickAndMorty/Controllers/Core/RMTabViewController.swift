@@ -16,7 +16,7 @@ import UIKit
 /// Controller to house tab and root tab Controllers
 final class RMTabViewController: UITabBarController {
     // Final class says that it cannot be subclassed ( it cannot be inherited)
-// As you can see above the RMTabViewController conforms to UITabBarController
+    // As you can see above the RMTabViewController conforms to UITabBarController
     //UITabbarController will contain the tab bar which basically in the bottom
     
     override func viewDidLoad() {
@@ -42,7 +42,7 @@ final class RMTabViewController: UITabBarController {
         locationVC.navigationItem.largeTitleDisplayMode = .automatic
         episodeVC.navigationItem.largeTitleDisplayMode = .automatic
         settingVC.navigationItem.largeTitleDisplayMode = .automatic
-      
+        
         // Above, we are saying the largeTitleDisplay to be automatic
         
         let nav1 = UINavigationController(rootViewController: characterVC)
@@ -59,7 +59,7 @@ final class RMTabViewController: UITabBarController {
         
         // Above we are just giving items and thier name and image
         // only after this, the tabbar label will show
-   
+        
         for nav in [nav1, nav2, nav3, nav4] {
             nav.navigationBar.prefersLargeTitles = true
         }
@@ -73,6 +73,6 @@ final class RMTabViewController: UITabBarController {
         )
         // This is the function avialable in the tabbar controller this takes a collection of viewcontroller
     }
-
+    
 }
 
