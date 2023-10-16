@@ -7,9 +7,20 @@
 
 import UIKit
 
+
+protocol RMCharacterListViewDelegate: AnyObject {
+    func rmCharacterListView(
+        _ characterListView: RMCharacterListView,
+        didSelectCharacter character: RMCharacter
+    )
+}
+
 // This is a dedicated view just for the characterlist
 /// View that handles showing the characters, laoders, etc.
 class RMCharacterListView: UIView {
+    
+    public weak var delegate: RMCharacterListViewDelegate?
+    
     
     // good rule of thumb, if you dont need it public make it private
     private let viewModel = RMCharacterListViewViewModel()
@@ -27,7 +38,7 @@ class RMCharacterListView: UIView {
         let layout = UICollectionViewFlowLayout() // predefined layout manager for a collection view. It's used to configure the layout of the collection view, such as how cells are arranged and sized.
         layout.scrollDirection = .vertical
         
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
         // The layout.sectionInset = UIIEdgeInsets provides reducing the size the of the cell
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout) //create a UICollectionView instance named collectionView. You initialize it with a frame of .zero, which means the collection view has no initial size and will be determined by its superview's constraints. You also set the collectionViewLayout to the layout you created in the previous step.
         
@@ -139,6 +150,10 @@ extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
             self.collectionView.alpha = 1 // we are showing the opacity here
         }
         
+    }
+    
+    func didSelectCharacter(_ character: RMCharacter) {
+        delegate?.rmCharacterListView(self, didSelectCharacter: character)
     }
     
     // we are doing this to make sure that even if the async takes a lot of time, the view does not show up before we show the data

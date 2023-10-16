@@ -13,6 +13,9 @@ import UIKit
 
 protocol RMCharacterListViewViewModelDelegate: AnyObject {
     func didLoadInitialCharacters()
+    // MARK: Delegate Pattern
+    
+    func didSelectCharacter(_ character: RMCharacter)
 }
 
 final class RMCharacterListViewViewModel: NSObject {
@@ -111,5 +114,12 @@ extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollection
         return CGSize(
             width: width,
             height: width * 1.43)
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let character = characters[indexPath.row] // So, this indexpath is an inbound argumented so we get what we tapped on
+        delegate?.didSelectCharacter(character)
     }
 }

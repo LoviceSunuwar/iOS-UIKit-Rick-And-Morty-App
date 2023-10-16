@@ -8,7 +8,8 @@
 import UIKit
 
 /// Controller to show and search Characters
-final class RMCharacterViewController: UIViewController {
+final class RMCharacterViewController: UIViewController, RMCharacterListViewDelegate {
+    
     
     // This is a cocoaTouch class
     // We made this cocoatouch class because it comes prebuilt with UIViewController, UITabbarController ETC..
@@ -25,7 +26,14 @@ final class RMCharacterViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Characters"
+        setUpView()
         
+        
+    }
+    
+    
+    private func setUpView() {
+        characterListView.delegate = self
         view.addSubview(characterListView) // we are adding the custom view we have created on this file
         NSLayoutConstraint.activate([
             // we are pinning the view on the frame of the viewcontroller
@@ -40,9 +48,17 @@ final class RMCharacterViewController: UIViewController {
             characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    
+    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter) {
+        // Open Detail controller for that chracter
+        let viewModel = RMCharacterDetailViewViewModel(character: character)
+        let detailVC = RMCharacterDetailViewController(viewModel: viewModel)
+        detailVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(detailVC, animated: true)
         
-        
-        
+        //
     }
     
 }
