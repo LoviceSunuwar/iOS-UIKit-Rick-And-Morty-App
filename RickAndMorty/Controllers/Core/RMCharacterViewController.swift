@@ -18,7 +18,7 @@ final class RMCharacterViewController: UIViewController {
     
     // Also, While creating the file, we can directly select what subclass is the file going to be and we get the option whether we are going to create a XIB file or not.
     
-    private let characterListView = CharacterListView()
+    private let characterListView = RMCharacterListView()
     
     
     override func viewDidLoad() {
@@ -31,6 +31,10 @@ final class RMCharacterViewController: UIViewController {
             // we are pinning the view on the frame of the viewcontroller
             // so we can have a clear viewcontroller
             // since we have anchored to the safe area, we are safe to make horizontal or even have it in the ipad
+            
+           
+            
+            //characterListView.heightAnchor.constraint(equalToConstant: 270),
             characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             characterListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),

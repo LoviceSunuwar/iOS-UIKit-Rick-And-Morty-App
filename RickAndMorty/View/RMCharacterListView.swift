@@ -9,11 +9,11 @@ import UIKit
 
 // This is a dedicated view just for the characterlist
 /// View that handles showing the characters, laoders, etc.
-class CharacterListView: UIView {
+class RMCharacterListView: UIView {
 
     // good rule of thumb, if you dont need it public make it private
-    private let viewModel = CharacterListViewViewModel()
-    // ------------------ Spinner --------------------------------------------------
+    private let viewModel = RMCharacterListViewViewModel()
+    // MARK: Spinner
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .large)
         spinner.hidesWhenStopped = true
@@ -21,11 +21,12 @@ class CharacterListView: UIView {
         return spinner
     }() // <- Notice the () this is an anonymous closure, any thing that ends with this can be counted as closure.
     
-    // ------------ CollectionView -----------------------------------------
+    // MARK: CollectionView
     
     private let collectionView: UICollectionView = { // <- So the UICollectionView is basically a gridview or cardview
        let layout = UICollectionViewFlowLayout() // predefined layout manager for a collection view. It's used to configure the layout of the collection view, such as how cells are arranged and sized.
         layout.scrollDirection = .vertical
+        
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         // The layout.sectionInset = UIIEdgeInsets provides reducing the size the of the cell
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout) //create a UICollectionView instance named collectionView. You initialize it with a frame of .zero, which means the collection view has no initial size and will be determined by its superview's constraints. You also set the collectionViewLayout to the layout you created in the previous step.
@@ -36,8 +37,9 @@ class CharacterListView: UIView {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        //This line registers a default UICollectionViewCell class for use with the collection view. When you later dequeue cells, you can use the "cell" identifier to reuse cells with this default class.
+        collectionView.register(RMCharacterCollectionViewCell.self,
+                                forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier)
+        //This line registers a default UICollectionViewCell class for use with the collection view. When you later dequeue cells, you can use the RMCharacterCollectionViewCell.cellIdentifier ( Which we have created in RMCharacterCollectionViewCell as a static string identifier to reuse cells with this default class.
         //Dequeueing cells in the context of a UICollectionView means to obtain a reusable cell that can be used to display content in the collection view. This process is essential for efficient memory usage and performance when dealing with a large number of cells.
         
         return collectionView
@@ -60,7 +62,7 @@ class CharacterListView: UIView {
         addConstraints() // you should always have it defined whatever is that you want to show in the view.
         spinner.startAnimating()
         
-        // -------- calling the fucntion from view model. since we have the viewModel defined above -------------
+        // MARK: - Fetch Data
         viewModel.fetchCharacters()
         // This is the function we have to fetch the data
         
@@ -74,10 +76,10 @@ class CharacterListView: UIView {
     }
     // Note that init(coder:) is the designated initializer in the NSCoding protocol. This method is used for initializing views from Interface Builder or Storyboards. If you're not planning to create instances of your view from Interface Builder, you can simply implement a fatalError as you've done, indicating that this initializer is unsupported.
     
-    
+    // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            //---------- Spinner Constraint ------------------
+            // MARK: - Constraints for Spinner
             spinner.widthAnchor.constraint(equalToConstant: 100),
             spinner.heightAnchor.constraint(equalToConstant: 100),
             // this is defining the size
@@ -85,8 +87,7 @@ class CharacterListView: UIView {
             spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
             // this is defining the position, Notice, we are doing equalTo: centerXAnchor ( which is the current view or Parent)
             
-            
-            // --------------- Collectionview constraint ---------------------
+            // MARK: - Constraints for the Collectionview
             // Unlike the width and height, we are adding the constraint to the collection view on top, bottom, right and left
             
             collectionView.topAnchor.constraint(equalTo: topAnchor),
@@ -95,13 +96,14 @@ class CharacterListView: UIView {
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
-    
+    // MARK: - SettingupCollectionView
     private func setUpCollectionView(){
+        // MARK: - Connect where the data will come from
         collectionView.dataSource = viewModel // since, we have assingned on the characterlistviewviewmodel, we can assign it here.
         // So, This where we get the data to the collectionview or a particular view (e.g: tableview)
 
       
-        
+        // MARK: - Removing Spiner and showing the grid
         // we area saying get rid of the spinner and show the grid we have which is collectionView
         DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
             self.spinner.stopAnimating() // this is going to stop animating and hide itself
@@ -112,6 +114,8 @@ class CharacterListView: UIView {
                 self.collectionView.alpha = 1 // we are showing the opacity here
             }
         })
+        
+        // MARK: - Assigning Delegate
         collectionView.delegate = viewModel // since, we have assinged on the characterlistviewviewmodel, we are just assigning here.
         // So, The delegate is when we show the view, and user taps on one of the cell,
         // it will handle the events, like tapping the cell and going to the new screen

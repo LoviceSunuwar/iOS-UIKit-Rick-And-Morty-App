@@ -13,8 +13,8 @@ import Foundation
 import UIKit
 
 
-final class CharacterListViewViewModel: NSObject {
-    
+final class RMCharacterListViewViewModel: NSObject {
+    // MARK: - Fetching CharactersData
     func fetchCharacters() {
         // the expectation is the type of data it will give, from the modal , it can be string, int also etc.
         RMService.shared.execute(.listCharacterRequests, expecting: RMGetAllCharactersResponse.self) { result in
@@ -29,7 +29,9 @@ final class CharacterListViewViewModel: NSObject {
                 // now we can manipulate inside the model which has info and info has count
                 // the count is going to give us total number of data there is
                 // model.info.count means , it will give us how many character there is in this case its 826
-                print("Page Result count: "+String(model.results.count))
+                //--> print("Page Result count: "+String(model.results.count))
+                
+                print("Example Image URL: "+String(model.results.first?.image ?? "No Image"))
                 print(String(describing: model))
             case .failure(let error):
                 print(String(describing: error))
@@ -40,24 +42,40 @@ final class CharacterListViewViewModel: NSObject {
 
 // here we are assinging the UICollectionViewDatasource, for the colleciton view .
 // while we could do in there as well, but we are keeping it clean.
-extension CharacterListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    // We are able to use this fucntion becuase of the UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20
     }
     // Here we are asking how much number of items is the data source going to provide to our view that is colelction view
-    
+    // MARK: - UICollectionViewDelegate
     // WE are able to use this function because of the UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) // here the name is "cell" which is allowing us to reuse the cell. we have created in the collectionview in characterlistview file
-        cell.backgroundColor = .systemGray
+       
+        
+        // Here, we are unwrapping the charactercellviewmodel and using the cell
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier,
+            for: indexPath)
+                as? RMCharacterCollectionViewCell else {
+                fatalError("Unsupported cell")
+            }
+        
+        // MARK: Adding the viewmodel here
+        // Now we are adding the ViewModel here, that is RMCharacterCollecctionViewCellViewModel
+        let viewModel = RMCharacterCollectionViewCellViewModel(characterName: "Lovice",
+                                                                    characterStatus: .alive,
+                                                                    characterImageURL: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"))
+        cell.configure(with: viewModel)
+        
+        // here the withReuseIdentifieier, and the static string we made in RMCharactercollectionviewcell which is allowing us to reuse the cell. we have created in the collectionview in characterlistview file
         return cell
     }
     
     // we are dequeing the cell, which will be every single cell.
     // Now you can notive the withReuseIdentifierL:"cell" , for: indexPath 
-    
+    // MARK: - UICollectionViewDelegateFlowLayout
     // We are able to use this funciton because of the UICollectionViewDelegateFlowLayout
     // This function can be used to define height, width or basically the size of each cell in the view we are using
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
