@@ -48,7 +48,7 @@ final class RMService {
             return
         }
         
-        print("API Call: \(request.url?.absoluteString ?? "")")
+        //print("API Call: \(request.url?.absoluteString ?? "")")
         
         // here you can see on task that , we want data, but the other is _, basically _ means ignoring, since we do not need response but we need error. so usually dataTask takes in {data, urlresponse, error}
         // we are getting the data from the api we constructed since, urlRequest is where we passed the constructed data

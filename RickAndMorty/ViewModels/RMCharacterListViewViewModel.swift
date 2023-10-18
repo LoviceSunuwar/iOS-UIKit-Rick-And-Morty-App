@@ -33,6 +33,7 @@ final class RMCharacterListViewViewModel: NSObject {
         // whenever the value of character is assigned we want to create a viewmodel
         // we are creating new viewmodels each time for each character
         didSet{
+            // if we check by names then
             // if the the viewmodels of character we have already does contain we are going to skip this
             // not an ideal implmentation, we are doing this on assumption, that every character has an unique name
             for character in characters {
@@ -100,7 +101,7 @@ final class RMCharacterListViewViewModel: NSObject {
             return
         }
         isLoadingMoreCharacters = true // this will make it only call once for the fetchmore on the spinner
-        print("Fetching more characters")
+       // print("Fetching more characters")
         
         guard let request = RMRequest(url: url) else { // it can return nil if we pass in something else like apple.com
             isLoadingMoreCharacters = false
@@ -114,7 +115,7 @@ final class RMCharacterListViewViewModel: NSObject {
             }
             switch result {
             case .success(let responseModel):
-                print("Pre-Update: \(strongSelf.cellViewModels.count)") // how many viewmodels we have before appending
+                //print("Pre-Update: \(strongSelf.cellViewModels.count)") // how many viewmodels we have before appending
                 let moreResults = responseModel.results //get new data
                 let info = responseModel.info
                 strongSelf.apiInfo = info // hang to the api infor
@@ -130,9 +131,9 @@ final class RMCharacterListViewViewModel: NSObject {
                 let indexPathToAdd: [IndexPath] = Array(startingIndex..<(startingIndex+newCount)).compactMap ({
                     return IndexPath(row: $0, section: 0)
                 })
-                print(indexPathToAdd)
+               //print(indexPathToAdd)
                 strongSelf.characters.append(contentsOf: moreResults) // adding on the characters
-                print("Post-Update: \(strongSelf.cellViewModels.count)") // how many viewmodels we have after appending
+               // print("Post-Update: \(strongSelf.cellViewModels.count)") // how many viewmodels we have after appending
                 
                 
                 // Error reason: 'attempt to insert item 38 into section 0, but there are only 38 items in section 0 after the update'
