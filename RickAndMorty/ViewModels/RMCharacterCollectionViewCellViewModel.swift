@@ -7,11 +7,28 @@
 
 import Foundation
 
-final class RMCharacterCollectionViewCellViewModel {
+final class RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
     
     public let characterName: String
     private let characterStatus: RMCharacterStatus
     private let characterImageURL: URL?
+    
+    
+    static func == (lhs: RMCharacterCollectionViewCellViewModel, rhs: RMCharacterCollectionViewCellViewModel) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    // we are checking that if our viewmodel does contain or not.
+    
+    // We are creating hashable is we are telling the viewmodel whenever we create whats the unique value for it,
+    // Equatable must be there, when there is hashable
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(characterName)
+        hasher.combine(characterStatus)
+        hasher.combine(characterImageURL)
+    }
+    
+    
     
     // MARK: Init
     

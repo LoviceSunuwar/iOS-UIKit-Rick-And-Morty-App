@@ -165,4 +165,11 @@ extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
     }
     
     // we are doing this to make sure that even if the async takes a lot of time, the view does not show up before we show the data
+    
+    
+    func didLoadMoreCharacters(with newIndexPath: [IndexPath]) {
+        collectionView.performBatchUpdates {
+            self.collectionView.insertItems(at: newIndexPath)
+        }
+    }
 }

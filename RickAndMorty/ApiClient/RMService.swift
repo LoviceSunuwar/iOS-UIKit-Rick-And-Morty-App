@@ -48,6 +48,7 @@ final class RMService {
             return
         }
         
+        print("API Call: \(request.url?.absoluteString ?? "")")
         
         // here you can see on task that , we want data, but the other is _, basically _ means ignoring, since we do not need response but we need error. so usually dataTask takes in {data, urlresponse, error}
         // we are getting the data from the api we constructed since, urlRequest is where we passed the constructed data
@@ -67,7 +68,7 @@ final class RMService {
                 let result = try JSONDecoder().decode(type.self, from: data)
 //                 we are doing type.self here because,we are saying that decode whatever the parameter you get with given input data from the above
                 completion(.success(result))
-                print(String(describing: result))
+               // print(String(describing: result))
                 
             } catch {
                 completion(.failure(error))

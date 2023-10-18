@@ -65,7 +65,7 @@ final class RMRequest {
     }
     // here we are returing the total api we made above
     // we made this optional becuase URL can be failable and we dont want it to fail and not recieve anything resulting in crash
-
+    
     
     /// Desired HTTP methods
     public let httpMethod = "Get"
@@ -79,17 +79,62 @@ final class RMRequest {
     ///   - pathComponents: Collection of Path comonents ( Name : value = Location : Toronto )
     ///   - queryParameters: Collection of Query Parameters ( https:/ www .  somethinghere .com / endpoint ( location) / (name:value&name:value) (name: osso & location : toronto)
     public init( endpoint: RMEndpoint,
-          pathComponents: [String] = [],
-          queryParameters: [URLQueryItem] = []
+                 pathComponents: [String] = [],
+                 queryParameters: [URLQueryItem] = []
     ){
         self.endpoint = endpoint
         self.pathComponents = pathComponents
         self.queryParameters = queryParameters
     }
     
+    //  it may or may not succed
+    
+    // So, this takes an url for parsing and attempt to get back the intialized RMRequest
+    convenience init?(url: URL) {
+        // getting the url string
+        let string = url.absoluteString
+        if !string.contains(Constants.baseUrl) {
+            return nil
+        }
+        
+        let trimmed = string.replacingOccurrences(of: Constants.baseUrl+"/", with: "")
+        // example: baseurl.com/character trimmed gives us just character
+        if trimmed.contains("/") {
+            let components = trimmed.components(separatedBy: "/")
+            // example after trimming, it has character/name then its going to split them ["character", "Split"]
+            
+            if !components.isEmpty  { //if the components array is not nil
+                let endPointString = components[0] // take the first element
+                if let rmEndpoint = RMEndpoint(rawValue: endPointString){
+                    self.init(endpoint: rmEndpoint)
+                    return
+                }
+            }
+        } else if trimmed.contains("?") {
+            let components = trimmed.components(separatedBy: "?")
+            if !components.isEmpty, components.count >= 2  {
+                let endPointString = components[0]
+                let queryItemsString = components[1]
+                // value-name&value=name
+                let queryItems: [URLQueryItem] = queryItemsString.components(separatedBy: "&").compactMap({
+                    //Generic parameter 'ElementOfResult' could not be inferred Error: This means it does not know what type it is
+                    guard $0.contains("=") else {
+                        return nil
+                    }
+                    let parts = $0.components(separatedBy: "=")
+                    return URLQueryItem(name: parts[0], value: parts[1])
+                })
+                if let rmEndpoint = RMEndpoint(rawValue: endPointString){
+                    self.init(endpoint: rmEndpoint, queryParameters: queryItems)
+                    return
+                }
+            }
+        }
+        return nil
+    }
 }
 
 extension RMRequest {
-        static let listCharacterRequests = RMRequest(endpoint: .character)
-    // here we are assignging the rmrequest endpoint to be character 
-    }
+    static let listCharacterRequests = RMRequest(endpoint: .character)
+    // here we are assignging the rmrequest endpoint to be character
+}
