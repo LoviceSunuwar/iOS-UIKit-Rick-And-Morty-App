@@ -53,6 +53,14 @@ class RMCharacterListView: UIView {
         //This line registers a default UICollectionViewCell class for use with the collection view. When you later dequeue cells, you can use the RMCharacterCollectionViewCell.cellIdentifier ( Which we have created in RMCharacterCollectionViewCell as a static string identifier to reuse cells with this default class.
         //Dequeueing cells in the context of a UICollectionView means to obtain a reusable cell that can be used to display content in the collection view. This process is essential for efficient memory usage and performance when dealing with a large number of cells.
         
+        // MARK: adding the footer spinner
+        
+        collectionView.register(RMFooterLoadingCollectionReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                // We are registering a footer in the collection view
+                                withReuseIdentifier: RMFooterLoadingCollectionReusableView.identifier)
+        
+        
         return collectionView
         
     }()

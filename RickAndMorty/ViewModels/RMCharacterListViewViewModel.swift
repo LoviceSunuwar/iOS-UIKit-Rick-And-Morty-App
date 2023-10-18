@@ -22,6 +22,8 @@ final class RMCharacterListViewViewModel: NSObject {
     
     public weak var delegate: RMCharacterListViewViewModelDelegate?
     
+    private var isLoadingMoreCharacters = false
+    
     
     private var characters: [RMCharacter] = [] { // we create a single character collection
         // whenever the value of character is assigned we want to create a viewmodel
@@ -36,7 +38,11 @@ final class RMCharacterListViewViewModel: NSObject {
     // This is a collection of the viewmodel, we are creating a viewmodel everytime the character is updated
     private var cellViewModels: [RMCharacterCollectionViewCellViewModel] = []
     
-    // MARK: - Fetching CharactersData
+    
+    private var apiInfo: RMGetAllCharactersResponse.Info? = nil
+    
+    // MARK: - Fetching CharactersData (Intial)
+    // fethc inital character (20)
     public func fetchCharacters() {
         // the expectation is the type of data it will give, from the modal , it can be string, int also etc.
         RMService.shared.execute(.listCharacterRequests,
@@ -48,12 +54,13 @@ final class RMCharacterListViewViewModel: NSObject {
             switch result{
             case .success(let responseModel):
                 let results = responseModel.results
+                let info = responseModel.info
                 self?.characters = results
-                
+                self?.apiInfo = info
                 DispatchQueue.main.async { // we are doing this on the main queue or main thread because this is going to update the view
                     self?.delegate?.didLoadInitialCharacters()
                 }
-                //                let info = responseModel.info.next
+                
                 
                 // now since when we succed we are keeping the data on model, that means we can manipulate it now
                 print("Total: "+String(responseModel.info.count))
@@ -70,6 +77,18 @@ final class RMCharacterListViewViewModel: NSObject {
             }
         }
     }
+    
+    // MARK: Pagination, Addtional Data Load
+    public func fetchAdditionalCharacter() {
+        isLoadingMoreCharacters = true // this will make it only call once for the fetchmore on the spinner
+    }
+    
+    
+    public var shouldShowLoadMoreIndicator: Bool {
+        return apiInfo?.next != nil
+    }
+    
+    
 }
 
 // here we are assinging the UICollectionViewDatasource, for the colleciton view .
@@ -103,6 +122,33 @@ extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollection
         return cell
     }
     
+    // MARK: Data source link of the footer, the function to deque the footer
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        // Adding the spinner to show at the bottom
+        guard kind == UICollectionView.elementKindSectionFooter,
+             let footer = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: RMFooterLoadingCollectionReusableView.identifier,
+                for: indexPath) as? RMFooterLoadingCollectionReusableView
+                 else {
+            fatalError("Unsupported")
+        }
+        footer.startAnimating()
+        return footer
+    }
+    
+    // MARK: Size for the footer (referencesizeforfooterinsection)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard shouldShowLoadMoreIndicator else {
+            return .zero // if we shouldnt show this the we are going to make the size zero that is basically hides it
+        }
+        
+        return CGSize(width: collectionView.frame.width,
+                      height: 100)
+    }
+    
+    
+    
     // we are dequeing the cell, which will be every single cell.
     // Now you can notive the withReuseIdentifierL:"cell" , for: indexPath
     // MARK: - UICollectionViewDelegateFlowLayout
@@ -121,5 +167,33 @@ extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollection
         collectionView.deselectItem(at: indexPath, animated: true)
         let character = characters[indexPath.row] // So, this indexpath is an inbound argumented so we get what we tapped on
         delegate?.didSelectCharacter(character)
+    }
+}
+
+
+// MARK: ScrollView
+
+extension RMCharacterListViewViewModel: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard shouldShowLoadMoreIndicator, !isLoadingMoreCharacters else {
+            return
+        }
+        let offset = scrollView.contentOffset.y // Increases as we go down
+        let totalContentHeight = scrollView.contentSize.height // height fo the content we are getting inside the scrollview
+        let totalScrollViewFixedHeight = scrollView.frame.size.height // height of the whole frame that the scrollview is in
+        
+        // So the logic here is,
+        // the offset basically means the Y vertical axis of the scrollview, which increases as we scroll down,
+        // because , we are adding in more content as we scrolldown and increasing the offset
+        //But, if the offset, when scroll at the very bottom and the content view slightly goes up
+        // Then we are comparing the actual contentheight we have to the frame or the scrollviewfixed heigh lets say,
+        // if our offset increases then we will fetch additional data
+        // we are substracting 120 because thatst the height of spinner
+        if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
+            print("should start fetching more")
+            fetchAdditionalCharacter()
+            
+            
+        }
     }
 }
