@@ -22,6 +22,7 @@ final class RMCharacterViewController: UIViewController, RMCharacterListViewDele
     private let characterListView = RMCharacterListView()
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
