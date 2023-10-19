@@ -11,13 +11,14 @@ final class RMCharacterDetailViewViewModel {
     
     // For the section we made in detail view
     // case Iterable lets us iterate on each enum case we have
-    enum SectionType: CaseIterable {
-        case photos
-        case information
-        case episodes
+    enum SectionType {
+        case photos(viewModel: RMCharacterPhotosCollectionViewCellViewModel) // associated values
+        case information(viewModels: [RMCharacterInfoCollectionViewCellViewModel])
+        case episodes(viewModels: [RMCharacterEpisodesCollectionViewCellViewModel])
     }
     
-    public let secitons = SectionType.allCases
+    public var sections: [SectionType] = []
+    
     
     // MARK: Init
     
@@ -25,8 +26,48 @@ final class RMCharacterDetailViewViewModel {
     
     init(character: RMCharacter) {
         self.character = character
+        setUpSections()
     }
     
+    /*
+     let id: Int
+     let name: String
+     let status: RMCharacterStatus
+     // this is an enum that conforms to certian string being the case
+     let species: String
+     let type: String
+     let gender: RMCharacterGender
+     // this is an enum that conforms to certian string being the case
+     let origin: RMOrigin
+     // We created a struct for RM Origin because it is an object on JSON but we can have it mentioned here as well
+     // struct RMOrigin: Codeable { let name: String, let url: String}
+     // this is an struct , so we know that one struct can have another one as property as well
+     let location: RMSingleLocation
+     // this is an enum that conforms to certian string being the case
+     let image: String
+     let episode: [String]
+     let url: String
+     let created: String
+     */
+    
+    private func setUpSections() {
+        sections = [
+            .photos(viewModel: .init(imageURL: URL(string: character.image))),
+            .information(viewModels: [
+                .init(value: character.status.rawValue, title: "Status"),
+                .init(value: character.status.rawValue, title: "Gender"),
+                .init(value: character.type, title: "Type"),
+                .init(value: character.species, title: "Species"),
+                .init(value: character.origin.name, title: "Origin"),
+                .init(value: character.location.name, title: "Location"),
+                .init(value: character.created, title: "Created"),
+                .init(value: "\(character.episode.count)", title: "Total Episode"),
+            ]),
+            .episodes(viewModels: character.episode.compactMap ({
+                return RMCharacterEpisodesCollectionViewCellViewModel(episodeDataUrl: URL(string: $0))
+            }))
+        ]
+    }
     
     public var requestURL: URL? {
         return URL(string: character.url)

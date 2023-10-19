@@ -65,15 +65,19 @@ class RMCharacterDetailView: UIView {
         }
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: layout)
-        collectionView.register(UICollectionViewCell.self,
-                                forCellWithReuseIdentifier: "cell")
+        collectionView.register(RMCharacterPhotosCollectionViewCell.self,
+                                forCellWithReuseIdentifier: RMCharacterPhotosCollectionViewCell.cellIdentifier)
+        collectionView.register(RMCharacterInfoCollectionViewCell.self,
+                                forCellWithReuseIdentifier: RMCharacterInfoCollectionViewCell.cellIdentifier)
+        collectionView.register(RMCharacterEpisodesCollectionViewCell.self,
+                                forCellWithReuseIdentifier: RMCharacterEpisodesCollectionViewCell.cellIdentifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }
     // MARK: Section
     // Section View reside inside the collectionview
     private func createSection(for sectionIndex: Int) -> NSCollectionLayoutSection {
-        let sectionTypes = viewModel.secitons
+        let sectionTypes = viewModel.sections
         
         switch sectionTypes[sectionIndex] {
         case .photos:
