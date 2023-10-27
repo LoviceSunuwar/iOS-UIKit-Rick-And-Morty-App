@@ -11,6 +11,27 @@ final class RMCharacterInfoCollectionViewCellViewModel {
     
     private let type: `Type`
     private let value: String
+    // Since date formatter takes in a lot of memory we are creating a static, usual way
+    static let dateFormatter: DateFormatter = {
+        // 2017-11-04T18:48:46.250Z <- ISO Format IOSFormatter() Didnt work
+        // We are creating a custom formatter
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
+        formatter.timeZone = .current
+        return formatter
+    }()
+    
+    static let shortDateFormatter: DateFormatter = {
+        // 2017-11-04T18:48:46.250Z <- ISO Format IOSFormatter() Didnt work
+        // We are creating a custom formatter
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        formatter.timeZone = .current
+        return formatter
+    }()
     
     public var title: String {
         type.displayTitle
@@ -18,6 +39,16 @@ final class RMCharacterInfoCollectionViewCellViewModel {
     
     public var displayValue: String {
         if value.isEmpty {return "None"}
+        
+//        if type == .created {
+//            print(value)
+//        }
+        
+        if let date = Self.dateFormatter.date(from: value),
+            type == .created { //ISO Date format
+            return Self.shortDateFormatter.string(from: date)
+        }
+        
         return value
     }
     
