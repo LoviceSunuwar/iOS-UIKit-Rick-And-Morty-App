@@ -8,6 +8,11 @@
 import UIKit
 
 final class RMCharacterDetailViewViewModel {
+    private let character: RMCharacter
+    
+    public var episodes: [String] {
+        character.episode
+    }
     
     // For the section we made in detail view
     // case Iterable lets us iterate on each enum case we have
@@ -22,7 +27,6 @@ final class RMCharacterDetailViewViewModel {
     
     // MARK: Init
     
-    private let character: RMCharacter
     
     init(character: RMCharacter) {
         self.character = character
