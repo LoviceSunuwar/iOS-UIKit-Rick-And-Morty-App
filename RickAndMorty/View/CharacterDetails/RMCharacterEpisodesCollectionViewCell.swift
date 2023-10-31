@@ -29,6 +29,9 @@ final class RMCharacterEpisodesCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: RMCharacterEpisodesCollectionViewCellViewModel) {
-        
+        viewModel.registerForData {data in
+            print(String(describing: data))
+        }
+        viewModel.fetchEpisode()
     }
 }

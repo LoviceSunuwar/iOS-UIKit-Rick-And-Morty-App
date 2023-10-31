@@ -103,7 +103,8 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
             guard let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterEpisodesCollectionViewCell.cellIdentifier, for: indexPath) as? RMCharacterEpisodesCollectionViewCell else {
                 fatalError("Unsupported")
             }
-            cell.configure(with: viewModels[indexPath.row])
+            let viewModel = viewModels[indexPath.row]
+            cell.configure(with: viewModel)
           //  cell.backgroundColor = .systemBrown
             return cell
         }
