@@ -118,7 +118,7 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
         case .photos, .information:
             break
         case .episodes:
-            let episodes = self.viewModel.episodes // getting the episodes by exposing the episodes colleciton on characterdetailviewmodel 
+            let episodes = self.viewModel.episodes // getting the episodes by exposing the episodes colleciton on characterdetailviewmodel
             let selection = episodes[indexPath.row] // Position of the selected viewmodel
             let vc = RMEpisodeDetailViewController(url: URL(string: selection))
             navigationController?.pushViewController(vc, animated: true)

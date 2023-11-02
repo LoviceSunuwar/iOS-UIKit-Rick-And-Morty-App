@@ -44,6 +44,7 @@
 		B28E9F4E2AE0EA3400985134 /* RMCharacterPhotosCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28E9F4D2AE0EA3400985134 /* RMCharacterPhotosCollectionViewCellViewModel.swift */; };
 		B28E9F502AE0EA4900985134 /* RMCharacterInfoCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28E9F4F2AE0EA4900985134 /* RMCharacterInfoCollectionViewCellViewModel.swift */; };
 		B28E9F532AE0EA5D00985134 /* RMCharacterEpisodesCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28E9F522AE0EA5D00985134 /* RMCharacterEpisodesCollectionViewCellViewModel.swift */; };
+		B291E6C52AF413F90062172B /* RMAPICacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B291E6C42AF413F90062172B /* RMAPICacheManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		B28E9F4D2AE0EA3400985134 /* RMCharacterPhotosCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterPhotosCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		B28E9F4F2AE0EA4900985134 /* RMCharacterInfoCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterInfoCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		B28E9F522AE0EA5D00985134 /* RMCharacterEpisodesCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterEpisodesCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
+		B291E6C42AF413F90062172B /* RMAPICacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAPICacheManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				B28E9F422AE043BF00985134 /* RMImageManager.swift */,
+				B291E6C42AF413F90062172B /* RMAPICacheManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				B258FDD929FC5EB10014A55D /* RMRequest.swift in Sources */,
 				B28E9F302ADB141600985134 /* RMCharacterListViewViewModel.swift in Sources */,
 				B258FDD129FC56FA0014A55D /* RMEpisodeViewController.swift in Sources */,
+				B291E6C52AF413F90062172B /* RMAPICacheManager.swift in Sources */,
 				B28E9F3D2ADDAB9B00985134 /* RMCharacterDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -517,6 +521,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HW57NPTVW8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RickAndMorty/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -543,6 +548,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HW57NPTVW8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RickAndMorty/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

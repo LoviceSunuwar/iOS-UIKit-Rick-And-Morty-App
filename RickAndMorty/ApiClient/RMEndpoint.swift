@@ -10,7 +10,7 @@ import Foundation
 
 // we have this enum as @frozen annotation 
 /// Represents unique API Endpoints
-@frozen enum RMEndpoint: String {
+@frozen enum RMEndpoint: String, Hashable, CaseIterable {
     
     // notice that we have not assigned a value to the cases
     // But, since the enum conforms to String it will have a RAW value,

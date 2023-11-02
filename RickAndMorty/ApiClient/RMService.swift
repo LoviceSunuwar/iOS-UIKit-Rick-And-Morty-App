@@ -15,6 +15,9 @@ final class RMService {
     /// Shared singleton instance
     static let shared = RMService()
     
+    private let cacheManager = RMAPICacheManager()
+    
+    
     /// Piravtized constructor
     private init() {}
     // every componenet will be forced to use the shared instance after having a private initializer
