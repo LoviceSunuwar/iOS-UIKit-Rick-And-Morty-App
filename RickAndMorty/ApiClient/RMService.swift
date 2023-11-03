@@ -41,6 +41,18 @@ final class RMService {
         completion: @escaping (Result<T, Error>) -> Void
     ) {
         
+        
+        if let cachedData = cacheManager.cachedResponse(for: request.endpoint, url: request.url){
+           print("Using Cached Response") // Checking if we are using the cached data //makes the app faster
+            do {
+                let result = try JSONDecoder().decode(type.self, from: cachedData)
+                completion(.success(result))
+            }
+            catch {
+                completion(.failure(error))
+            }
+        }
+        
         // here, request is the one we deifined along with function,
         // and we are saying that the urlRequest (notice the small letter not a capital letter)
         // we  are assinging the request on this function while it executes everytime to have the data get and set from itself, where the data request is the one we created as a function below, that returns us request
@@ -55,7 +67,7 @@ final class RMService {
         
         // here you can see on task that , we want data, but the other is _, basically _ means ignoring, since we do not need response but we need error. so usually dataTask takes in {data, urlresponse, error}
         // we are getting the data from the api we constructed since, urlRequest is where we passed the constructed data
-        let task = URLSession.shared.dataTask(with: urlRequest) {data, _, error in
+        let task = URLSession.shared.dataTask(with: urlRequest) {[weak self] data, _, error in
             guard let data = data, error == nil else {
                 completion(.failure(error ?? RMServiceError.failedToGetData))
                 return
@@ -69,6 +81,7 @@ final class RMService {
 //                let json = try JSONSerialization.jsonObject(with: data)
 //                print(String(describing: data))
                 let result = try JSONDecoder().decode(type.self, from: data)
+                self?.cacheManager.setCache(for: request.endpoint, url: request.url, data: data)
 //                 we are doing type.self here because,we are saying that decode whatever the parameter you get with given input data from the above
                 completion(.success(result))
                // print(String(describing: result))
