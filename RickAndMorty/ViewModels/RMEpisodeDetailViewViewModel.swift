@@ -33,7 +33,7 @@ class RMEpisodeDetailViewViewModel {
         }
     }
     
-    
+    //6.52
     
     
 }
