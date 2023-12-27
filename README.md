@@ -13,7 +13,7 @@ Full featured universal (iOS, macOS, iPadOS) app showcasing the Rick and Morty A
 - Pagination Support for data
 - Auto layout Based
 - Universal App: Run on iPhone, iPad, and Mac
-- Built in Xcode 14
+- Built in Xcode 15
 - [Leverages free Rick & Morty API](https://rickandmortyapi.com/)
 
 ## Design
